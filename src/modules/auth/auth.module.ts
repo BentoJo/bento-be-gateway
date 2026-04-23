@@ -11,8 +11,11 @@ import { join } from 'path';
         name: 'AUTH_SERVICE',
         transport: Transport.GRPC,
         options: {
-          package: 'auth',
-          protoPath: join(__dirname, '../../shared/proto/auth.proto'),
+          package: ['auth', 'common'],
+          protoPath: [
+            join(__dirname, '../../shared/proto/auth.proto'),
+            join(__dirname, '../../shared/proto/common.proto'),
+          ],
           url: '0.0.0.0:50052',
           loader: {
             keepCase: true,

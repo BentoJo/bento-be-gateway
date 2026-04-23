@@ -1,8 +1,13 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
+import { ClientContextMiddleware } from '../shared/middlewares/client-context.middleware';
 
 @Module({
   imports: [AuthModule],
 })
-
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    // Apply client context middleware to ALL routes globally
+    consumer.apply(ClientContextMiddleware).forRoutes('*');
+  }
+}

@@ -1,6 +1,18 @@
-export interface VerifyOtp {
+import type { ClientContext } from '../../middlewares/client-context.middleware';
+
+export interface VerifyOtpRequest {
   email: string;
   code: string;
+}
+
+export interface VerifyOtpGrpcPayload {
+  email: string;
+  code: string;
+  clientContext: ClientContext;
+}
+
+export interface OtpResendRequest {
+  email: string;
 }
 
 export interface OtpResendResponse {
