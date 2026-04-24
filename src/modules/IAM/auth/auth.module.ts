@@ -13,10 +13,10 @@ import { join } from 'path';
         options: {
           package: ['auth', 'common'],
           protoPath: [
-            join(__dirname, '../../shared/proto/auth.proto'),
-            join(__dirname, '../../shared/proto/common.proto'),
+            join(__dirname, '../../../shared/proto/auth.proto'),
+            join(__dirname, '../../../shared/proto/common.proto'),
           ],
-          url: '0.0.0.0:50052',
+          url: `0.0.0.0:${process.env.IAM_GRPC_PORT || 50052}`,
           loader: {
             keepCase: true,
             defaults: true,

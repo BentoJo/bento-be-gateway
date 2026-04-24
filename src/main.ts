@@ -1,10 +1,15 @@
+import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app.module';
 import { GrpcExceptionFilter } from './shared/filters/grpc-exception.filter';
 import { ResponseInterceptor } from './shared/interceptors/response.interceptor';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Enable cookie parsing for incoming requests
+  app.use(cookieParser());
 
   // Global gRPC → HTTP error translation
   app.useGlobalFilters(new GrpcExceptionFilter());

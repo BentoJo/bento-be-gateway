@@ -20,7 +20,10 @@ export class AuthGuard implements CanActivate {
     const token = authHeader.split(' ')[1];
 
     try {
-      const payload = await verifyAccessToken(token);
+      const payload = await verifyAccessToken(token).catch((err) => {
+        console.error('Token verification failed:', err.message);
+        throw new UnauthorizedException('Invalid token');
+      });
       request.user = payload;
       return true;
     } catch {
