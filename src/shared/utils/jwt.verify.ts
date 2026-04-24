@@ -5,7 +5,6 @@ const JWKS_URL = process.env.JWKS_URL || 'http://iam-service';
 export async function verifyAccessToken(token: string) {
   try {
     const res = await fetch(`${JWKS_URL}/.well-known/jwks.json`);
-    console.log(res.status);
     const { keys } = await res.json();
 
     const header = decodeProtectedHeader(token);
