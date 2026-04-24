@@ -1,15 +1,18 @@
 import { AuthService } from './auth.service';
-import type { RegisterRequest } from '../../shared/types/auth/register';
+import type { RegisterRequest } from '../../../shared/types/auth/register';
 import { Controller, Post, Body } from '@nestjs/common';
-import { ClientContextDecorator } from '../../shared/decorators/client-context.decorator';
-import type { ClientContext } from '../../shared/middlewares/client-context.middleware';
-import type { LoginRequest } from '../../shared/types/auth/login';
-import type { VerifyOtpRequest, OtpResendRequest } from '../../shared/types/auth/otp';
-import type { RefreshTokenRequest } from '../../shared/types/auth/refresh-token';
+import { ClientContextDecorator } from '../../../shared/decorators/client-context.decorator';
+import type { ClientContext } from '../../../shared/middlewares/client-context.middleware';
+import type { LoginRequest } from '../../../shared/types/auth/login';
+import type {
+  VerifyOtpRequest,
+  OtpResendRequest,
+} from '../../../shared/types/auth/otp';
+import type { RefreshTokenRequest } from '../../../shared/types/auth/refresh-token';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) { }
+  constructor(private readonly authService: AuthService) {}
 
   @Post('/register')
   async register(@Body() body: RegisterRequest) {
@@ -17,11 +20,8 @@ export class AuthController {
   }
 
   @Post('/login')
-  async login(
-    @Body() body: LoginRequest,
-    @ClientContextDecorator() ctx: ClientContext,
-  ) {
-    return this.authService.login(body, ctx);
+  async login(@Body() body: LoginRequest) {
+    return this.authService.login(body);
   }
 
   @Post('/verify-otp')

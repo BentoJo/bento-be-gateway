@@ -4,23 +4,20 @@ import { Observable, firstValueFrom } from 'rxjs';
 import {
   RegisterRequest,
   RegisterResponse,
-} from '../../shared/types/auth/register';
-import {
-  LoginRequest,
-  LoginResponse,
-} from '../../shared/types/auth/login';
+} from '../../../shared/types/auth/register';
+import { LoginRequest, LoginResponse } from '../../../shared/types/auth/login';
 import {
   VerifyOtpRequest,
   VerifyOtpGrpcPayload,
   VerifyOtpResponse,
   OtpResendRequest,
   OtpResendResponse,
-} from '../../shared/types/auth/otp';
+} from '../../../shared/types/auth/otp';
 import {
   RefreshTokenRequest,
   RefreshTokenResponse,
-} from '../../shared/types/auth/refresh-token';
-import { ClientContext } from '../../shared/middlewares/client-context.middleware';
+} from '../../../shared/types/auth/refresh-token';
+import { ClientContext } from '../../../shared/middlewares/client-context.middleware';
 
 interface AuthServiceGrpc {
   Register(data: RegisterRequest): Observable<RegisterResponse>;
@@ -34,7 +31,7 @@ interface AuthServiceGrpc {
 export class AuthService implements OnModuleInit {
   private authServiceGrpc!: AuthServiceGrpc;
 
-  constructor(@Inject('AUTH_SERVICE') private client: ClientGrpc) { }
+  constructor(@Inject('AUTH_SERVICE') private client: ClientGrpc) {}
 
   onModuleInit() {
     this.authServiceGrpc =
@@ -45,7 +42,7 @@ export class AuthService implements OnModuleInit {
     return firstValueFrom(this.authServiceGrpc.Register(data));
   }
 
-  login(data: LoginRequest, ctx: ClientContext) {
+  login(data: LoginRequest) {
     return firstValueFrom(this.authServiceGrpc.Login(data));
   }
 

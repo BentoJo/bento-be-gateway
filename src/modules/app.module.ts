@@ -1,5 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './IAM/auth/auth.module';
 import { ClientContextMiddleware } from '../shared/middlewares/client-context.middleware';
 
 @Module({
