@@ -4,10 +4,12 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { verifyAccessToken } from '../utils/jwt.verify';
+import { JwtVerifyService } from '../utils/jwt.verify';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
+  constructor(private readonly jwtVerifyService: JwtVerifyService) {}
+
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
 
@@ -20,10 +22,12 @@ export class AuthGuard implements CanActivate {
     const token = authHeader.split(' ')[1];
 
     try {
-      const payload = await verifyAccessToken(token).catch((err) => {
-        console.error('Token verification failed:', err.message);
-        throw new UnauthorizedException('Invalid token');
-      });
+      const payload = await this.jwtVerifyService
+        .verifyAccessToken(token)
+        .catch((err) => {
+          console.error('Token verification failed:', err.message);
+          throw new UnauthorizedException('Invalid token');
+        });
       request.user = payload;
       return true;
     } catch {
