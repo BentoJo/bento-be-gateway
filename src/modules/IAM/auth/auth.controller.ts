@@ -22,6 +22,7 @@ import {
   COOKIE_OPTIONS,
   DEVICE_COOKIE_OPTIONS,
 } from '../../../shared/configs/cookies.config';
+import type { LogoutAllRequest } from '../../../shared/types/auth/logout';
 
 @Controller('auth')
 export class AuthController {
@@ -88,5 +89,24 @@ export class AuthController {
       ...result,
       refreshToken: undefined,
     };
+  }
+
+  @Post('/logout')
+  @UseGuards(AuthGuard)
+  logout(@Req() req: Request) {
+    const refreshToken = req.cookies?.refreshToken;
+
+    if (!refreshToken) {
+      throw new Error('No refresh token provided');
+    }
+
+    return this.authService.logout({ refreshToken });
+  }
+
+  @Post('/logout-all')
+  @UseGuards(AuthGuard)
+  logoutAll(@Body() body: LogoutAllRequest) {
+    const userId = body.userId;
+    return this.authService.logoutAll({ userId });
   }
 }
