@@ -4,7 +4,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { JwtVerifyService } from '../utils/jwt.verify';
+import { JwtVerifyService } from '../../modules/Redis/services/jwt.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

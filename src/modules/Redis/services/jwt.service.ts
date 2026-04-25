@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { decodeProtectedHeader, importJWK, jwtVerify, type JWK } from 'jose';
-import { RedisService } from '../../modules/Redis/redis.service';
+import { RedisService } from './redis.service';
 
 const JWKS_URL = process.env.JWKS_URL || 'http://iam-service';
 const JWKS_CACHE_KEY = 'auth:jwks';

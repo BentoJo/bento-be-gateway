@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 import { AuthGuard } from '../../../shared/Guards/auth.guard';
-import { JwtVerifyService } from '../../../shared/utils/jwt.verify';
+import { JwtVerifyService } from '../../Redis/services/jwt.service';
 
 @Module({
   imports: [
