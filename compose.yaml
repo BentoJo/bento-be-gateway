@@ -9,3 +9,26 @@ services:
       - .env
     ports:
       - "5000:5000"
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "16462:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  redis-data:
