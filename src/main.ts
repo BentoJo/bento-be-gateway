@@ -19,7 +19,7 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT ?? 5000);
   console.log(
-    `API Gateway is running on http://localhost:${process.env.PORT ?? 5000}/api`,
+    `API Gateway is running on http://localhost:${process.env.PORT ?? 5000}`,
   );
 }
 bootstrap();

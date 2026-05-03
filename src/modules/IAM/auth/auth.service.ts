@@ -18,6 +18,12 @@ import {
   RefreshTokenResponse,
 } from '../../../shared/types/auth/refresh-token';
 import { ClientContext } from '../../../shared/middlewares/client-context.middleware';
+import {
+  LogoutAllRequest,
+  LogoutAllResponse,
+  LogoutRequest,
+  LogoutResponse,
+} from '../../../shared/types/auth/logout';
 
 interface AuthServiceGrpc {
   Register(data: RegisterRequest): Observable<RegisterResponse>;
@@ -25,6 +31,8 @@ interface AuthServiceGrpc {
   VerifyOTP(data: VerifyOtpGrpcPayload): Observable<VerifyOtpResponse>;
   ResendOTP(data: OtpResendRequest): Observable<OtpResendResponse>;
   RefreshToken(data: RefreshTokenRequest): Observable<RefreshTokenResponse>;
+  Logout(data: LogoutRequest): Observable<LogoutResponse>;
+  LogoutAll(data: LogoutAllRequest): Observable<LogoutAllResponse>;
 }
 
 @Injectable()
@@ -61,5 +69,13 @@ export class AuthService implements OnModuleInit {
 
   refreshToken(data: RefreshTokenRequest) {
     return firstValueFrom(this.authServiceGrpc.RefreshToken(data));
+  }
+
+  logout(data: LogoutRequest) {
+    return firstValueFrom(this.authServiceGrpc.Logout(data));
+  }
+
+  logoutAll(data: LogoutAllRequest) {
+    return firstValueFrom(this.authServiceGrpc.LogoutAll(data));
   }
 }
