@@ -40,9 +40,6 @@ export class ClientContextMiddleware implements NestMiddleware {
       return Number.isNaN(n) ? null : n;
     };
 
-    const fromHeader = (req.headers['x-app-type'] as string)?.toUpperCase();
-    const fromUA = (req.headers['user-agent'] as string)?.split('/')[0];
-
     req.clientContext = {
       ipAddress,
       userAgent: (req.headers['user-agent'] as string) || 'Unknown',
