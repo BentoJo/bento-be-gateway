@@ -12,7 +12,7 @@ services:
     depends_on:
       - redis
     networks:
-      - app-network
+      - backend-network
 
   redis:
     image: redis:latest
@@ -25,10 +25,11 @@ services:
     volumes:
       - redis-data:/data
     networks:
-      - app-network
+      - backend-network
 
-networks:
-  app-network:
-    driver: bridge
 volumes:
   redis-data:
+
+networks:
+  backend-network:
+    external: true

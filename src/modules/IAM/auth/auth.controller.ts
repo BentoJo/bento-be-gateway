@@ -27,9 +27,9 @@ import {
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get('/test')
+  @Get('/health')
   test() {
-    return 'Auth service is up and running!';
+    return 'Auth service is healthy';
   }
 
   @Post('/auth')

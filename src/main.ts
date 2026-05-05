@@ -17,6 +17,11 @@ async function bootstrap() {
   // Wrap every successful response in { success, message, data }
   app.useGlobalInterceptors(new ResponseInterceptor());
 
+  app.enableCors({
+    origin: process.env.CORS_ORIGIN?.split(',') ?? '*',
+    credentials: true,
+  });
+
   await app.listen(process.env.PORT ?? 5000);
   console.log(
     `API Gateway is running on http://localhost:${process.env.PORT ?? 5000}`,
