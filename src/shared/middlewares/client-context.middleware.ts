@@ -51,7 +51,7 @@ export class ClientContextMiddleware implements NestMiddleware {
       clientVersion: (req.headers['x-client-version'] as string) || '1.0.0',
       timezone: (req.headers['x-timezone'] as string) || 'Asia/Amman',
       requestId: (req.headers['x-request-id'] as string) || randomUUID(),
-      sessionId: (req.headers['x-session-id'] as string) || null,
+      sessionId: (req.cookies?.sessionId as string) || null,
 
       deviceFingerPrint:
         (req.headers['x-device-fingerprint'] as string) || 'anonymous',
