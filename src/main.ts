@@ -8,6 +8,9 @@ import cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Set global API prefix to /api/v1
+  app.setGlobalPrefix('api/v1');
+
   // Enable cookie parsing for incoming requests
   app.use(cookieParser());
 
