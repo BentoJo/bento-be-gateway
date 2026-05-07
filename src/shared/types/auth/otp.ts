@@ -19,6 +19,7 @@ export interface OtpResendResponse {
   method: string;
   email: string;
   expiresIn: string;
+  resendAfter?: Date;
 }
 
 export interface VerifyOtpResponse {
