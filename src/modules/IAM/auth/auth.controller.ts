@@ -28,9 +28,9 @@ import type { LogoutAllRequest } from '../../../shared/types/auth/logout';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Get('/test')
+  @Get('/health')
   test() {
-    return 'Auth service is up and running!';
+    return 'Auth service is healthy';
   }
 
   @Post('/auth')
@@ -59,10 +59,12 @@ export class AuthController {
 
     res.cookie('refreshToken', result.refreshToken, COOKIE_OPTIONS);
     res.cookie('deviceToken', result.session.deviceId, DEVICE_COOKIE_OPTIONS);
+    res.cookie('sessionId', result.session.sessionId, COOKIE_OPTIONS);
 
     return {
       ...result,
       refreshToken: undefined,
+      session: undefined,
     };
   }
 
