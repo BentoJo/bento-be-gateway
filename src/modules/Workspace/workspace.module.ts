@@ -14,10 +14,10 @@ import { WorkspaceService } from './workspace.service';
           package: ['workspace', 'workspace.common'],
           protoPath: [
             join(
-              __dirname,
-              '../../../shared/proto/Workspace/workspace/workspace.proto',
+              process.cwd(),
+              'src/shared/proto/Workspace/workspace/workspace.proto',
             ),
-            join(__dirname, '../../../shared/proto/Workspace/common.proto'),
+            join(process.cwd(), 'src/shared/proto/Workspace/common.proto'),
           ],
           url: `ws-service:${process.env.WORKSPACE_GRPC_PORT || 50054}`,
           loader: {

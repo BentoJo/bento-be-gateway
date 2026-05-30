@@ -15,8 +15,8 @@ import { JwtVerifyService } from '../../Redis/services/jwt.service';
         options: {
           package: ['auth', 'common'],
           protoPath: [
-            join(__dirname, '../../../shared/proto/IAM/auth.proto'),
-            join(__dirname, '../../../shared/proto/IAM/common.proto'),
+            join(process.cwd(), 'src/shared/proto/IAM/auth.proto'),
+            join(process.cwd(), 'src/shared/proto/IAM/common.proto'),
           ],
           url: `iam-service:${process.env.IAM_GRPC_PORT || 50052}`,
           loader: {
