@@ -50,10 +50,17 @@ export class WorkspaceController {
 
   @Put('/:workspaceId')
   updateWorkspace(
-    @Body() body: UpdateWorkspaceRequest,
+    @Param() params: GetWorkspaceRequest,
+    @Body() body: Omit<UpdateWorkspaceRequest, 'workspaceId'>,
     @Req() req: AuthenticatedRequest,
   ) {
-    return this.workspaceService.updateWorkspace(body, req.user);
+    return this.workspaceService.updateWorkspace(
+      {
+        workspaceId: params.workspaceId,
+        ...body,
+      },
+      req.user,
+    );
   }
 
   @Delete('/:workspaceId')
@@ -87,7 +94,7 @@ export class WorkspaceController {
     );
   }
 
-  @Post('/:me/workspaces')
+  @Post('/me/workspaces')
   listUserWorkspaces(
     @Body() data: ListUserWorkspacesRequest,
     @Req() req: AuthenticatedRequest,
