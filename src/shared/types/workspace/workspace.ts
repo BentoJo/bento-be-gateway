@@ -48,9 +48,9 @@ export interface WorkspaceResponse {
 
   ownerId: string;
 
-  createdAt: Date;
+  createdAt: string;
 
-  updatedAt?: Date;
+  updatedAt?: string;
 }
 
 export interface GetWorkspaceRequest {
@@ -69,4 +69,37 @@ export interface TransferWorkspaceOwnershipRequest {
   workspaceId: string;
 
   newOwnerId: string;
+}
+
+export interface ListUserWorkspacesRequest {
+  page?: number;
+
+  limit?: number;
+
+  search?: string;
+
+  includeArchived?: boolean;
+}
+
+export interface WorkspaceListItem {
+  id: string;
+
+  name: string;
+
+  logoUrl?: string;
+
+  isArchived: boolean;
+
+  roleId: string;
+}
+
+export interface ListUserWorkspacesResponse {
+  workspaces: WorkspaceListItem[];
+
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
 }

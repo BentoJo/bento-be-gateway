@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package workspace;
 
-import "google/protobuf/timestamp.proto";
 import "../common.proto";
 
 service WorkspaceService {
@@ -26,7 +25,7 @@ service WorkspaceService {
       returns (workspace.common.ActionResponse); // Done
 
   rpc ListUserWorkspaces(ListUserWorkspacesRequest)
-      returns (ListUserWorkspacesResponse);
+      returns (ListUserWorkspacesResponse); // Done
 
   rpc GetWorkspaceOverview(GetWorkspaceOverviewRequest)
       returns (WorkspaceOverviewResponse); // Done
@@ -62,9 +61,9 @@ message WorkspaceResponse {
 
   bool isArchived = 5;
 
-  google.protobuf.Timestamp createdAt = 6;
+  string createdAt = 6;
 
-  optional google.protobuf.Timestamp updatedAt = 7;
+  optional string updatedAt = 7;
 }
 
 // Get

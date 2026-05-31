@@ -10,6 +10,8 @@ import {
   TransferWorkspaceOwnershipRequest,
   WorkspaceResponse,
   GetWorkspaceOverviewResponse,
+  ListUserWorkspacesRequest,
+  ListUserWorkspacesResponse,
 } from '../../shared/types/workspace/workspace';
 import { Observable } from 'rxjs';
 import { ActionResponse } from '../../shared/types/workspace/common';
@@ -46,6 +48,10 @@ interface WorkspaceServiceGrpc {
     data: TransferWorkspaceOwnershipRequest,
     metadata: Metadata,
   ): Observable<ActionResponse>;
+  ListUserWorkspaces(
+    data: { data: ListUserWorkspacesRequest },
+    metadata: Metadata,
+  ): Observable<ListUserWorkspacesResponse>;
 }
 
 @Injectable()
@@ -110,6 +116,13 @@ export class WorkspaceService implements OnModuleInit {
   ) {
     return this.workspaceServiceGrpc.TransferWorkspaceOwnership(
       data,
+      buildRequiredUserMetadata(user),
+    );
+  }
+
+  listUserWorkspaces(data: ListUserWorkspacesRequest, user: AuthenticatedUser) {
+    return this.workspaceServiceGrpc.ListUserWorkspaces(
+      { data },
       buildRequiredUserMetadata(user),
     );
   }

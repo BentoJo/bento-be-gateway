@@ -13,6 +13,7 @@ import { WorkspaceService } from './workspace.service';
 import type {
   CreateWorkspaceRequest,
   GetWorkspaceRequest,
+  ListUserWorkspacesRequest,
   UpdateWorkspaceRequest,
 } from '../../shared/types/workspace/workspace';
 import { AuthGuard } from '../../shared/Guards/auth.guard';
@@ -84,5 +85,13 @@ export class WorkspaceController {
       },
       req.user,
     );
+  }
+
+  @Post('/:me/workspaces')
+  listUserWorkspaces(
+    @Body() data: ListUserWorkspacesRequest,
+    @Req() req: AuthenticatedRequest,
+  ) {
+    return this.workspaceService.listUserWorkspaces(data, req.user);
   }
 }
