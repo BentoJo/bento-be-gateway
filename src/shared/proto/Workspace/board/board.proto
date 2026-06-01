@@ -1,6 +1,10 @@
 syntax = "proto3";
 
+<<<<<<< HEAD
 package boards;
+=======
+package board;
+>>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
 
 import "../common.proto";
 
@@ -35,6 +39,7 @@ service BoardService {
   rpc RemoveBoardMember(RemoveBoardMemberRequest)
       returns (workspace.common.ActionResponse);
 
+<<<<<<< HEAD
   // rpc UpdateBoardMemberRoleOverride(
   //     UpdateBoardMemberRoleOverrideRequest)
   //     returns (workspace.common.ActionResponse);
@@ -43,6 +48,8 @@ service BoardService {
   //     ClearBoardMemberRoleOverrideRequest)
   //     returns (workspace.common.ActionResponse);
 
+=======
+>>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
   rpc ListBoardMembers(ListBoardMembersRequest)
       returns (ListBoardMembersResponse);
 
@@ -61,7 +68,11 @@ message CreateBoardRequest {
 
   string name = 2;
 
+<<<<<<< HEAD
   bool isPrivate = 3;
+=======
+  optional string visibility = 3;
+>>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
 
   optional string icon = 4;
 }
@@ -73,7 +84,11 @@ message BoardResponse {
 
   string name = 3;
 
+<<<<<<< HEAD
   bool isPrivate = 4;
+=======
+  string visibility = 4;
+>>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
 
   optional string icon = 5;
 
@@ -97,7 +112,11 @@ message UpdateBoardRequest {
 
   optional string name = 3;
 
+<<<<<<< HEAD
   optional bool isPrivate = 4;
+=======
+  optional string visibility = 4;
+>>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
 
   optional string icon = 5;
 }
@@ -143,7 +162,11 @@ message BoardListItem {
 
   string name = 2;
 
+<<<<<<< HEAD
   bool isPrivate = 3;
+=======
+  string visibility = 3;
+>>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
 
   optional string icon = 4;
 
@@ -176,6 +199,7 @@ message RemoveBoardMemberRequest {
   string userId = 3;
 }
 
+<<<<<<< HEAD
 message UpdateBoardMemberRoleOverrideRequest {
   string workspaceId = 1;
 
@@ -194,6 +218,8 @@ message ClearBoardMemberRoleOverrideRequest {
   string userId = 3;
 }
 
+=======
+>>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
 message ListBoardMembersRequest {
   string workspaceId = 1;
 
@@ -220,6 +246,7 @@ message ListBoardMembersResponse {
   workspace.common.PaginationMeta pagination = 2;
 }
 
+<<<<<<< HEAD
 message ValidateBoardMembershipRequest {
   string workspaceId = 1;
 
@@ -256,6 +283,8 @@ message ValidateBoardAccessResponse {
   bool allowed = 1;
 }
 
+=======
+>>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
 message FavoriteBoardRequest {
   string workspaceId = 1;
 
@@ -290,6 +319,7 @@ message ListFavoriteBoardsResponse {
   repeated FavoriteBoardListItem boards = 1;
 
   workspace.common.PaginationMeta pagination = 2;
+<<<<<<< HEAD
 }
 
 // ---------------------------
@@ -317,4 +347,6 @@ message ListBoardWatchersRequest {
 message ListBoardWatchersResponse {
   repeated workspace.common.Watcher watchers = 1;
   workspace.common.PaginationMeta pagination = 2;
+=======
+>>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
 }

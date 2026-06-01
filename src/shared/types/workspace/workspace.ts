@@ -1,3 +1,5 @@
+import type { BoardVisibility } from '../board/board';
+
 export interface CreateWorkspaceRequest {
   name: string;
   logoUrl?: string;
@@ -27,7 +29,7 @@ export type GetWorkspaceOverviewResponse = {
   boardsPreview: {
     id: string;
     name: string;
-    visibility: string;
+    visibility: BoardVisibility;
     columnsCount: number;
     cardCount: number;
   }[];

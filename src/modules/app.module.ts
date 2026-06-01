@@ -7,6 +7,7 @@ import { BoardMembersModule } from './boards-members/board-members.module';
 import { WorkspaceModule } from './Workspace/workspace.module';
 import { WorkspaceMembersModule } from './workspace-members/workspace-members.module';
 import { WorkspaceRolesModule } from './workspace-roles/workspace-roles.module';
+import { TeamsModule } from './teams/teams.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { WorkspaceRolesModule } from './workspace-roles/workspace-roles.module';
     WorkspaceModule,
     WorkspaceMembersModule,
     WorkspaceRolesModule,
+    TeamsModule,
   ],
 })
 export class AppModule implements NestModule {

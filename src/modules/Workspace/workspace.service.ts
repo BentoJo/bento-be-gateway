@@ -24,7 +24,7 @@ interface WorkspaceServiceGrpc {
     data: CreateWorkspaceRequest,
     metadata: Metadata,
   ): Observable<WorkspaceResponse>;
-  GetWorkspacesById(
+  GetWorkspace(
     data: GetWorkspaceRequest,
     metadata: Metadata,
   ): Observable<ActionResponse>;
@@ -72,8 +72,8 @@ export class WorkspaceService implements OnModuleInit {
     );
   }
 
-  getWorkspacesById(data: GetWorkspaceRequest, user: AuthenticatedUser) {
-    return this.workspaceServiceGrpc.GetWorkspacesById(
+  getWorkspaceById(data: GetWorkspaceRequest, user: AuthenticatedUser) {
+    return this.workspaceServiceGrpc.GetWorkspace(
       data,
       buildRequiredUserMetadata(user),
     );
