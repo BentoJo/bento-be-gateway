@@ -4,14 +4,17 @@ import type { ClientGrpc } from '@nestjs/microservices';
 import { firstValueFrom, Observable } from 'rxjs';
 
 import type { AuthenticatedUser } from '../../shared/types/auth';
-import type { ActionResponse } from '../../shared/types/workspace/common';
 import { buildRequiredUserMetadata } from '../../shared/utils/grpc-user-metadata';
 import type {
   AddTeamMemberRequest,
+  AddTeamMemberResponse,
   ArchiveTeamRequest,
+  ArchiveTeamResponse,
   BulkAddTeamMembersRequest,
   BulkRemoveTeamMembersRequest,
+  BulkTeamMembersResponse,
   CreateTeamRequest,
+  DeleteTeamResponse,
   DeleteTeamRequest,
   GetTeamRequest,
   ListMemberTeamsRequest,
@@ -21,11 +24,14 @@ import type {
   ListTeamsRequest,
   ListTeamsResponse,
   RemoveTeamMemberRequest,
+  RemoveTeamMemberResponse,
   //   ResolveEffectiveTeamMembersRequest,
   //   ResolveEffectiveTeamMembersResponse,
   RestoreTeamRequest,
+  RestoreTeamResponse,
   TeamResponse,
   UnarchiveTeamRequest,
+  UnarchiveTeamResponse,
   UpdateTeamRequest,
 } from './types';
 
@@ -42,19 +48,19 @@ interface TeamsServiceGrpc {
   DeleteTeam(
     data: DeleteTeamRequest,
     metadata: Metadata,
-  ): Observable<ActionResponse>;
+  ): Observable<DeleteTeamResponse>;
   RestoreTeam(
     data: RestoreTeamRequest,
     metadata: Metadata,
-  ): Observable<ActionResponse>;
+  ): Observable<RestoreTeamResponse>;
   ArchiveTeam(
     data: ArchiveTeamRequest,
     metadata: Metadata,
-  ): Observable<ActionResponse>;
+  ): Observable<ArchiveTeamResponse>;
   UnarchiveTeam(
     data: UnarchiveTeamRequest,
     metadata: Metadata,
-  ): Observable<ActionResponse>;
+  ): Observable<UnarchiveTeamResponse>;
   ListTeams(
     data: ListTeamsRequest,
     metadata: Metadata,
@@ -62,11 +68,11 @@ interface TeamsServiceGrpc {
   AddTeamMember(
     data: AddTeamMemberRequest,
     metadata: Metadata,
-  ): Observable<ActionResponse>;
+  ): Observable<AddTeamMemberResponse>;
   RemoveTeamMember(
     data: RemoveTeamMemberRequest,
     metadata: Metadata,
-  ): Observable<ActionResponse>;
+  ): Observable<RemoveTeamMemberResponse>;
   ListTeamMembers(
     data: ListTeamMembersRequest,
     metadata: Metadata,
@@ -74,11 +80,11 @@ interface TeamsServiceGrpc {
   BulkAddTeamMembers(
     data: BulkAddTeamMembersRequest,
     metadata: Metadata,
-  ): Observable<ActionResponse>;
+  ): Observable<BulkTeamMembersResponse>;
   BulkRemoveTeamMembers(
     data: BulkRemoveTeamMembersRequest,
     metadata: Metadata,
-  ): Observable<ActionResponse>;
+  ): Observable<BulkTeamMembersResponse>;
   ListMemberTeams(
     data: ListMemberTeamsRequest,
     metadata: Metadata,

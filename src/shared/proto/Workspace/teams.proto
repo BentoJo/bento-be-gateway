@@ -6,49 +6,49 @@ import "./common.proto";
 
 service TeamService {
   rpc CreateTeam(CreateTeamRequest)
-      returns (TeamResponse);
+  returns (TeamResponse); // Done
 
   rpc GetTeam(GetTeamRequest)
-      returns (TeamResponse);
+  returns (TeamResponse); // Done
 
   rpc UpdateTeam(UpdateTeamRequest)
-      returns (TeamResponse);
+  returns (UpdateTeamResponse); // Done
 
   rpc DeleteTeam(DeleteTeamRequest)
-      returns (workspace.common.ActionResponse);
+  returns (DeleteTeamResponse); // Done
 
   rpc RestoreTeam(RestoreTeamRequest)
-      returns (workspace.common.ActionResponse);
+  returns (RestoreTeamResponse); // Done
 
   rpc ArchiveTeam(ArchiveTeamRequest)
-      returns (workspace.common.ActionResponse);
+  returns (workspace.common.ActionResponse); // Done
 
   rpc UnarchiveTeam(UnarchiveTeamRequest)
-      returns (workspace.common.ActionResponse);
+  returns (workspace.common.ActionResponse); // Done
 
   rpc ListTeams(ListTeamsRequest)
-      returns (ListTeamsResponse);
+  returns (ListTeamsResponse); // Done
 
   rpc AddTeamMember(AddTeamMemberRequest)
-      returns (workspace.common.ActionResponse);
+  returns (AddTeamMemberResponse); // Done
 
   rpc RemoveTeamMember(RemoveTeamMemberRequest)
-      returns (workspace.common.ActionResponse);
+  returns (workspace.common.ActionResponse); // Done
 
   rpc ListTeamMembers(ListTeamMembersRequest)
-      returns (ListTeamMembersResponse);
+  returns (ListTeamMembersResponse); // Done
 
   rpc BulkAddTeamMembers(BulkAddTeamMembersRequest)
-      returns (workspace.common.ActionResponse);
+  returns (workspace.common.ActionResponse);
 
   rpc BulkRemoveTeamMembers(BulkRemoveTeamMembersRequest)
-      returns (workspace.common.ActionResponse);
+  returns (workspace.common.ActionResponse);
 
   rpc ListMemberTeams(ListMemberTeamsRequest)
-      returns (ListMemberTeamsResponse);
+  returns (ListMemberTeamsResponse);
 
   rpc ResolveEffectiveTeamMembers(ResolveEffectiveTeamMembersRequest)
-      returns (ResolveEffectiveTeamMembersResponse);
+  returns (ResolveEffectiveTeamMembersResponse); // later
 }
 
 message CreateTeamRequest {
@@ -97,16 +97,46 @@ message UpdateTeamRequest {
   optional string icon = 5;
 }
 
+message UpdateTeamResponse {
+  string id = 1;
+
+  string workspaceId = 2;
+
+  string name = 3;
+
+  optional string description = 4;
+
+  optional string icon = 5;
+
+  string updatedAt = 6;
+}
+
 message DeleteTeamRequest {
   string workspaceId = 1;
 
   string teamId = 2;
 }
 
+message DeleteTeamResponse {
+  bool success = 1;
+
+  string message = 2;
+
+  string deletedAt = 3;
+}
+
 message RestoreTeamRequest {
   string workspaceId = 1;
 
   string teamId = 2;
+}
+
+message RestoreTeamResponse {
+  bool success = 1;
+
+  string message = 2;
+
+  string restoredAt = 3;
 }
 
 message ArchiveTeamRequest {
@@ -156,7 +186,17 @@ message AddTeamMemberRequest {
 
   string teamId = 2;
 
-  string userId = 3;
+  string workspaceMemberId = 3;
+}
+
+message AddTeamMemberResponse {
+  string id = 1;
+
+  string teamId = 2;
+
+  string workspaceMemberId = 3;
+
+  string joinedAt = 4;
 }
 
 message RemoveTeamMemberRequest {
@@ -182,6 +222,7 @@ message BulkRemoveTeamMembersRequest {
 
   repeated string userIds = 3;
 }
+
 message ListTeamMembersRequest {
   string workspaceId = 1;
 
