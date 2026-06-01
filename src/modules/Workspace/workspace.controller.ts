@@ -45,7 +45,7 @@ export class WorkspaceController {
     @Param() params: GetWorkspaceRequest,
     @Req() req: AuthenticatedRequest,
   ) {
-    return this.workspaceService.getWorkspacesById(params, req.user);
+    return this.workspaceService.getWorkspaceById(params, req.user);
   }
 
   @Put('/:workspaceId')
