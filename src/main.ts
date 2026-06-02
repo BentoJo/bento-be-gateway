@@ -21,7 +21,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseInterceptor());
 
   app.enableCors({
-    origin: process.env.CORS_ORIGIN?.split(',') ?? '*',
+    origin: process.env.CORS_ORIGIN?.split(',') ?? true,
     credentials: true,
   });
 

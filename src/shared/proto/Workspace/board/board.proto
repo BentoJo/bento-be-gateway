@@ -1,352 +1,168 @@
 syntax = "proto3";
 
-<<<<<<< HEAD
-package boards;
-=======
 package board;
->>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
 
 import "../common.proto";
 
 service BoardService {
-  rpc CreateBoard(CreateBoardRequest)
-      returns (BoardResponse);
+  rpc CreateBoard(CreateBoardRequest) returns (BoardResponse);
 
-  rpc GetBoard(GetBoardRequest)
-      returns (BoardResponse);
+  rpc GetBoard(GetBoardRequest) returns (BoardResponse);
 
-  rpc UpdateBoard(UpdateBoardRequest)
-      returns (BoardResponse);
+  rpc UpdateBoard(UpdateBoardRequest) returns (BoardResponse);
 
-  rpc DeleteBoard(DeleteBoardRequest)
-      returns (workspace.common.ActionResponse);
+  rpc DeleteBoard(DeleteBoardRequest) returns (workspace.common.ActionResponse);
 
-  rpc RestoreBoard(RestoreBoardRequest)
-      returns (workspace.common.ActionResponse);
+  rpc RestoreBoard(RestoreBoardRequest) returns (workspace.common.ActionResponse);
 
-  rpc ArchiveBoard(ArchiveBoardRequest)
-      returns (workspace.common.ActionResponse);
+  rpc ArchiveBoard(ArchiveBoardRequest) returns (workspace.common.ActionResponse);
 
-  rpc UnarchiveBoard(UnarchiveBoardRequest)
-      returns (workspace.common.ActionResponse);
+  rpc UnarchiveBoard(UnarchiveBoardRequest) returns (workspace.common.ActionResponse);
 
-  rpc ListWorkspaceBoards(ListWorkspaceBoardsRequest)
-      returns (ListWorkspaceBoardsResponse);
+  rpc ListWorkspaceBoards(ListWorkspaceBoardsRequest) returns (ListWorkspaceBoardsResponse);
 
-  rpc AddBoardMember(AddBoardMemberRequest)
-      returns (workspace.common.ActionResponse);
+  rpc AddBoardMember(AddBoardMemberRequest) returns (workspace.common.ActionResponse);
 
-  rpc RemoveBoardMember(RemoveBoardMemberRequest)
-      returns (workspace.common.ActionResponse);
+  rpc RemoveBoardMember(RemoveBoardMemberRequest) returns (workspace.common.ActionResponse);
 
-<<<<<<< HEAD
-  // rpc UpdateBoardMemberRoleOverride(
-  //     UpdateBoardMemberRoleOverrideRequest)
-  //     returns (workspace.common.ActionResponse);
+  rpc ListBoardMembers(ListBoardMembersRequest) returns (ListBoardMembersResponse);
 
-  // rpc ClearBoardMemberRoleOverride(
-  //     ClearBoardMemberRoleOverrideRequest)
-  //     returns (workspace.common.ActionResponse);
+  rpc FavoriteBoard(FavoriteBoardRequest) returns (workspace.common.ActionResponse);
 
-=======
->>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
-  rpc ListBoardMembers(ListBoardMembersRequest)
-      returns (ListBoardMembersResponse);
+  rpc UnfavoriteBoard(UnfavoriteBoardRequest) returns (workspace.common.ActionResponse);
 
-  rpc FavoriteBoard(FavoriteBoardRequest)
-      returns (workspace.common.ActionResponse);
-
-  rpc UnfavoriteBoard(UnfavoriteBoardRequest)
-      returns (workspace.common.ActionResponse);
-
-  rpc ListFavoriteBoards(ListFavoriteBoardsRequest)
-      returns (ListFavoriteBoardsResponse);
+  rpc ListFavoriteBoards(ListFavoriteBoardsRequest) returns (ListFavoriteBoardsResponse);
 }
 
 message CreateBoardRequest {
   string workspaceId = 1;
-
   string name = 2;
-
-<<<<<<< HEAD
-  bool isPrivate = 3;
-=======
   optional string visibility = 3;
->>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
-
   optional string icon = 4;
 }
 
 message BoardResponse {
   string id = 1;
-
   string workspaceId = 2;
-
   string name = 3;
-
-<<<<<<< HEAD
-  bool isPrivate = 4;
-=======
   string visibility = 4;
->>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
-
   optional string icon = 5;
-
   bool isArchived = 6;
-
   string createdAt = 7;
-
   optional string updatedAt = 8;
 }
 
 message GetBoardRequest {
   string workspaceId = 1;
-
   string boardId = 2;
 }
 
 message UpdateBoardRequest {
   string workspaceId = 1;
-
   string boardId = 2;
-
   optional string name = 3;
-
-<<<<<<< HEAD
-  optional bool isPrivate = 4;
-=======
   optional string visibility = 4;
->>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
-
   optional string icon = 5;
 }
 
 message DeleteBoardRequest {
   string workspaceId = 1;
-
   string boardId = 2;
 }
 
 message RestoreBoardRequest {
   string workspaceId = 1;
-
   string boardId = 2;
 }
 
 message ArchiveBoardRequest {
   string workspaceId = 1;
-
   string boardId = 2;
 }
 
 message UnarchiveBoardRequest {
   string workspaceId = 1;
-
   string boardId = 2;
 }
 
 message ListWorkspaceBoardsRequest {
   string workspaceId = 1;
-
   int32 page = 2;
-
   int32 limit = 3;
-
   optional string search = 4;
-
   optional bool includeArchived = 5;
 }
 
 message BoardListItem {
   string id = 1;
-
   string name = 2;
-
-<<<<<<< HEAD
-  bool isPrivate = 3;
-=======
   string visibility = 3;
->>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
-
   optional string icon = 4;
-
   bool isArchived = 5;
-
   bool isFavorite = 6;
 }
 
 message ListWorkspaceBoardsResponse {
   repeated BoardListItem boards = 1;
-
   workspace.common.PaginationMeta pagination = 2;
 }
 
 message AddBoardMemberRequest {
   string workspaceId = 1;
-
   string boardId = 2;
-
   string userId = 3;
-
   optional string overrideRoleId = 4;
 }
 
 message RemoveBoardMemberRequest {
   string workspaceId = 1;
-
   string boardId = 2;
-
   string userId = 3;
 }
 
-<<<<<<< HEAD
-message UpdateBoardMemberRoleOverrideRequest {
-  string workspaceId = 1;
-
-  string boardId = 2;
-
-  string userId = 3;
-
-  string overrideRoleId = 4;
-}
-
-message ClearBoardMemberRoleOverrideRequest {
-  string workspaceId = 1;
-
-  string boardId = 2;
-
-  string userId = 3;
-}
-
-=======
->>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
 message ListBoardMembersRequest {
   string workspaceId = 1;
-
   string boardId = 2;
-
   int32 page = 3;
-
   int32 limit = 4;
-
   optional string search = 5;
 }
 
 message BoardMemberListItem {
   string userId = 1;
-
   optional string overrideRoleId = 2;
-
   string joinedAt = 3;
 }
 
 message ListBoardMembersResponse {
   repeated BoardMemberListItem members = 1;
-
   workspace.common.PaginationMeta pagination = 2;
 }
 
-<<<<<<< HEAD
-message ValidateBoardMembershipRequest {
-  string workspaceId = 1;
-
-  string boardId = 2;
-
-  string userId = 3;
-}
-
-message ValidateBoardMembershipResponse {
-  bool isMember = 1;
-}
-
-message MakeBoardPrivateRequest {
-  string workspaceId = 1;
-
-  string boardId = 2;
-}
-
-message MakeBoardPublicRequest {
-  string workspaceId = 1;
-
-  string boardId = 2;
-}
-
-message ValidateBoardAccessRequest {
-  string workspaceId = 1;
-
-  string boardId = 2;
-
-  string userId = 3;
-}
-
-message ValidateBoardAccessResponse {
-  bool allowed = 1;
-}
-
-=======
->>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
 message FavoriteBoardRequest {
   string workspaceId = 1;
-
   string boardId = 2;
 }
 
 message UnfavoriteBoardRequest {
   string workspaceId = 1;
-
   string boardId = 2;
 }
 
 message ListFavoriteBoardsRequest {
   string workspaceId = 1;
-
   int32 page = 2;
-
   int32 limit = 3;
 }
 
 message FavoriteBoardListItem {
   string boardId = 1;
-
   string name = 2;
-
   optional string icon = 3;
-
   bool isPrivate = 4;
 }
 
 message ListFavoriteBoardsResponse {
   repeated FavoriteBoardListItem boards = 1;
-
   workspace.common.PaginationMeta pagination = 2;
-<<<<<<< HEAD
-}
-
-// ---------------------------
-// WATCHERS
-// ---------------------------
-
-message WatchBoardRequest {
-  string workspaceId = 1;
-  string boardId = 2;
-}
-
-message UnwatchBoardRequest {
-  string workspaceId = 1;
-  string boardId = 2;
-}
-
-message ListBoardWatchersRequest {
-  string workspaceId = 1;
-  string boardId = 2;
-
-  int32 page = 3;
-  int32 limit = 4;
-}
-
-message ListBoardWatchersResponse {
-  repeated workspace.common.Watcher watchers = 1;
-  workspace.common.PaginationMeta pagination = 2;
-=======
->>>>>>> 3568a0a9a446978ba1d982312e31db7d7c85130c
 }

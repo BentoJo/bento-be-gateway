@@ -12,7 +12,7 @@ import { BoardsService } from './boards.service';
         name: 'WORKSPACE_BOARDS_SERVICE',
         transport: Transport.GRPC,
         options: {
-          package: 'boards',
+          package: 'board',
           protoPath: [
             join(process.cwd(), 'src/shared/proto/Workspace/board/board.proto'),
             join(process.cwd(), 'src/shared/proto/Workspace/common.proto'),

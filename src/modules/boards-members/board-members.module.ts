@@ -12,7 +12,7 @@ import { BoardMembersService } from './board-members.service';
         name: 'WORKSPACE_BOARD_MEMBERS_SERVICE',
         transport: Transport.GRPC,
         options: {
-          package: 'boards',
+          package: 'boardMembers',
           protoPath: [
             join(
               process.cwd(),
