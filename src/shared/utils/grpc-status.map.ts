@@ -21,7 +21,7 @@ const grpcToHttpMap: Record<number, GrpcHttpMapping> = {
     httpStatus: 429,
     message: 'Too many requests',
   },
-  [GrpcStatus.FAILED_PRECONDITION]: { httpStatus: 400, message: 'Bad request' },
+  [GrpcStatus.FAILED_PRECONDITION]: { httpStatus: 409, message: 'Conflict' },
   [GrpcStatus.ABORTED]: { httpStatus: 409, message: 'Conflict' },
   [GrpcStatus.OUT_OF_RANGE]: { httpStatus: 400, message: 'Bad request' },
   [GrpcStatus.UNIMPLEMENTED]: { httpStatus: 501, message: 'Not implemented' },

@@ -27,6 +27,24 @@ import { WorkspaceMembersService } from './workspace-members.service.js';
           },
         },
       },
+      {
+        // IAM user gRPC client used to enrich member lists with profile data.
+        name: 'IAM_USER_SERVICE',
+        transport: Transport.GRPC,
+        options: {
+          package: ['user', 'common'],
+          protoPath: [
+            join(process.cwd(), 'src/shared/proto/IAM/user.proto'),
+            join(process.cwd(), 'src/shared/proto/IAM/common.proto'),
+          ],
+          url: `iam-service:${process.env.IAM_GRPC_PORT || 50052}`,
+          loader: {
+            keepCase: true,
+            defaults: true,
+            longs: String,
+          },
+        },
+      },
     ]),
   ],
   controllers: [WorkspaceMembersController],

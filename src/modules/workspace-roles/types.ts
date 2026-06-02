@@ -1,5 +1,8 @@
 export interface GetWorkspaceRolesRequest {
   workspaceId: string;
+
+  // Caller's resolved authz role id for this workspace (read by ws PermissionsGuard).
+  roleId?: string;
 }
 
 export interface WorkspaceRole {
@@ -32,18 +35,27 @@ export interface DeleteWorkspaceRoleReferenceRequest {
   workspaceId: string;
 
   authzRoleId: string;
+
+  // Caller's resolved authz role id (read by ws PermissionsGuard).
+  roleId?: string;
 }
 
 export interface GetWorkspaceRoleFromAuthZRequest {
   workspaceId: string;
 
   authzRoleId: string;
+
+  // Caller's resolved authz role id (read by ws PermissionsGuard).
+  roleId?: string;
 }
 
 export interface GetWorkspaceRolesPermissionsFromAuthZRequest {
   workspaceId: string;
 
   authzRoleId: string;
+
+  // Caller's resolved authz role id (read by ws PermissionsGuard).
+  roleId?: string;
 }
 
 export interface WorkspaceRolePermissionsResponse {
@@ -76,4 +88,50 @@ export interface CheckPermissionRequest {
 
 export interface CheckPermissionResponse {
   allowed: boolean;
+}
+
+// --- Role creation (proxied to AuthZ AuthorizationService) ---
+
+export interface CreateWorkspaceRoleRequest {
+  name: string;
+
+  permissions: string[];
+}
+
+// AuthZ CreateRole RPC shape
+export interface AuthzCreateRoleRequest {
+  name: string;
+
+  scopeType: string;
+
+  scopeId: string;
+
+  isSystem: boolean;
+
+  createdBy: string;
+}
+
+export interface AuthzCreateRoleResponse {
+  roleId: string;
+}
+
+// AuthZ AssignPermissionsToRole RPC shape
+export interface AuthzAssignPermissionsRequest {
+  roleId: string;
+
+  permissionIds: string[];
+
+  scopeId: string;
+}
+
+export interface AuthzAssignPermissionsResponse {
+  success: boolean;
+}
+
+export interface CreateWorkspaceRoleResponse {
+  roleId: string;
+
+  name: string;
+
+  permissions: string[];
 }

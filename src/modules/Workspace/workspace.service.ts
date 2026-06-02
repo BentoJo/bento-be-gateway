@@ -121,6 +121,12 @@ export class WorkspaceService implements OnModuleInit {
   }
 
   listUserWorkspaces(data: ListUserWorkspacesRequest, user: AuthenticatedUser) {
+    // TODO(BE): enrich WorkspaceListItem with memberCount / isFavorite.
+    // The Workspace service does not currently return either on
+    // ListUserWorkspaces (WorkspaceListItem = id/name/logoUrl/isArchived/roleId),
+    // and there is no cheap per-workspace count or workspace-level favorite RPC
+    // to fan out over (favorites exist only at the board level). Omitting both
+    // rather than fabricating until WS exposes them on this response.
     return this.workspaceServiceGrpc.ListUserWorkspaces(
       { data },
       buildRequiredUserMetadata(user),

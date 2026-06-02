@@ -13,6 +13,7 @@ import { AuthGuard } from '../../shared/Guards/auth.guard';
 import type { AuthenticatedRequest } from '../../shared/types/auth';
 import type {
   CheckPermissionRequest,
+  CreateWorkspaceRoleRequest,
   DeleteWorkspaceRoleReferenceRequest,
   GetWorkspaceMemberRoleRequest,
   GetWorkspaceRoleFromAuthZRequest,
@@ -48,13 +49,29 @@ export class WorkspaceRolesController {
     );
   }
 
+  @Post('/:workspaceId/roles')
+  @UseGuards(AuthGuard)
+  createWorkspaceRole(
+    @Param('workspaceId') workspaceId: string,
+    @Body() body: CreateWorkspaceRoleRequest,
+    @Req() req: AuthenticatedRequest,
+  ) {
+    return this.workspaceRolesService.createWorkspaceRole(
+      workspaceId,
+      body,
+      req.user,
+    );
+  }
+
   @Get('/:workspaceId/roles/:authzRoleId/permissions')
   @UseGuards(AuthGuard)
   getWorkspaceRolesPermissionsFromAuthZ(
     @Param() params: GetWorkspaceRolesPermissionsFromAuthZRequest,
+    @Req() req: AuthenticatedRequest,
   ) {
     return this.workspaceRolesService.getWorkspaceRolesPermissionsFromAuthZ(
       params,
+      req.user,
     );
   }
 

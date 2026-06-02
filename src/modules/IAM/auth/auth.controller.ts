@@ -8,6 +8,7 @@ import {
   Res,
   Req,
   Get,
+  UnauthorizedException,
 } from '@nestjs/common';
 import type { Response, Request } from 'express';
 import { ClientContextDecorator } from '../../../shared/decorators/client-context.decorator';
@@ -81,7 +82,7 @@ export class AuthController {
     const refreshToken = req.cookies?.refreshToken;
 
     if (!refreshToken) {
-      throw new Error('No refresh token provided');
+      throw new UnauthorizedException('No refresh token provided');
     }
     const result = await this.authService.refreshToken({ refreshToken });
 
@@ -99,7 +100,7 @@ export class AuthController {
     const refreshToken = req.cookies?.refreshToken;
 
     if (!refreshToken) {
-      throw new Error('No refresh token provided');
+      throw new UnauthorizedException('No refresh token provided');
     }
 
     return this.authService.logout({ refreshToken });

@@ -58,6 +58,12 @@ export class WorkspaceMembersController {
     return this.workspaceMembersService.rejectWorkspaceInvite(body);
   }
 
+  @Get('/invitations/me')
+  @UseGuards(AuthGuard)
+  listMyInvitations(@Req() req: AuthenticatedRequest) {
+    return this.workspaceMembersService.listMyInvitations(req.user);
+  }
+
   @Get('/:workspaceId/members/:memberId/role')
   @UseGuards(AuthGuard)
   getWorkspaceMemberRole(

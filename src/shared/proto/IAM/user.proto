@@ -7,6 +7,64 @@ service CommentService {
     rpc GetCommentsByPost (GetCommentRequest) returns (CommentListResponse);
 }
 
+// NOTE: IAM does NOT yet expose a UserService over gRPC. UserFunction
+// (getUser / updateUserProfile) exists internally but has no @GrpcMethod
+// handler. This contract is defined here so the gateway proxy is ready;
+// IAM must implement @GrpcMethod('UserService', 'GetUser' | 'UpdateUser').
+service UserService {
+    rpc GetUser (GetUserRequest) returns (UserInfo);
+    rpc UpdateUser (UpdateUserRequest) returns (UserInfo);
+    // Batch profile lookup used by the gateway to enrich member lists.
+    rpc GetUsersByIds (GetUsersByIdsRequest) returns (GetUsersByIdsResponse);
+}
+
+message GetUserRequest {
+    string userId = 1;
+}
+
+message GetUsersByIdsRequest {
+    repeated string userIds = 1;
+}
+
+message GetUsersByIdsResponse {
+    repeated UserProfile users = 1;
+}
+
+message UserProfile {
+    string id = 1;
+    string email = 2;
+    string firstName = 3;
+    string lastName = 4;
+    string avatarUrl = 5;
+}
+
+message UpdateUserRequest {
+    string userId = 1;
+    string firstName = 2;
+    string lastName = 3;
+    string avatarUrl = 4;
+    string bio = 5;
+    string phone = 6;
+    string dob = 7;
+    string gender = 8;
+}
+
+message UserInfo {
+    string id = 1;
+    string email = 2;
+    string firstName = 3;
+    string lastName = 4;
+    string avatarUrl = 5;
+    string bio = 6;
+    string phone = 7;
+    string dob = 8;
+    string gender = 9;
+    string authStatus = 10;
+    string globalRole = 11;
+    string createdAt = 12;
+    string updatedAt = 13;
+}
+
 message AddCommentRequest {
     string post_id = 1;
     string content = 2;

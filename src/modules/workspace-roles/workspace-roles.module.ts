@@ -28,6 +28,23 @@ import { WorkspaceRolesService } from './workspace-roles.service';
           },
         },
       },
+      {
+        name: 'AUTHZ_SERVICE',
+        transport: Transport.GRPC,
+        options: {
+          package: 'authz',
+          protoPath: join(
+            process.cwd(),
+            'src/shared/proto/authz/authz.proto',
+          ),
+          url: process.env.AUTHZ_URL || 'authz-service:50053',
+          loader: {
+            keepCase: true,
+            defaults: true,
+            longs: String,
+          },
+        },
+      },
     ]),
   ],
   controllers: [WorkspaceRolesController],

@@ -146,6 +146,33 @@ export interface ListWorkspaceMembersResponse {
   };
 }
 
+// Shape returned by IAM UserService.GetUsersByIds (user.proto UserProfile).
+export interface IamUserProfile {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  avatarUrl: string;
+}
+
+export interface GetUsersByIdsResponse {
+  users: IamUserProfile[];
+}
+
+// Member enriched with the IAM profile fields merged in by the gateway.
+export interface EnrichedWorkspaceMemberListItem extends WorkspaceMemberListItem {
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  avatarUrl: string | null;
+}
+
+export interface EnrichedListWorkspaceMembersResponse {
+  members: EnrichedWorkspaceMemberListItem[];
+
+  pagination: ListWorkspaceMembersResponse['pagination'];
+}
+
 export interface ListWorkspaceInvitesRequest {
   workspaceId: string;
 
