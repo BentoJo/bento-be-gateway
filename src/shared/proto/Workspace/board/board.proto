@@ -87,8 +87,8 @@ message UnarchiveBoardRequest {
 
 message ListWorkspaceBoardsRequest {
   string workspaceId = 1;
-  int32 page = 2;
-  int32 limit = 3;
+  optional int32 page = 2;
+  optional int32 limit = 3;
   optional string search = 4;
   optional bool includeArchived = 5;
 }
@@ -123,8 +123,8 @@ message RemoveBoardMemberRequest {
 message ListBoardMembersRequest {
   string workspaceId = 1;
   string boardId = 2;
-  int32 page = 3;
-  int32 limit = 4;
+  optional int32 page = 3;
+  optional int32 limit = 4;
   optional string search = 5;
 }
 
@@ -151,8 +151,8 @@ message UnfavoriteBoardRequest {
 
 message ListFavoriteBoardsRequest {
   string workspaceId = 1;
-  int32 page = 2;
-  int32 limit = 3;
+  optional int32 page = 2;
+  optional int32 limit = 3;
 }
 
 message FavoriteBoardListItem {
