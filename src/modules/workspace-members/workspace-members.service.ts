@@ -71,9 +71,7 @@ interface WorkspaceMembersServiceGrpc {
 }
 
 interface IamUserServiceGrpc {
-  GetUsersByIds(data: {
-    userIds: string[];
-  }): Observable<GetUsersByIdsResponse>;
+  GetUsersByIds(data: { userIds: string[] }): Observable<GetUsersByIdsResponse>;
 }
 
 @Injectable()
@@ -234,7 +232,7 @@ export class WorkspaceMembersService implements OnModuleInit {
    * invitee. We therefore return an empty list rather than fabricating data.
    * Once WS adds e.g. `ListInvitesForUser({ userId | email })`, wire it here.
    */
-  listMyInvitations(_user: AuthenticatedUser): {
+  listMyInvitations(): {
     invites: WorkspaceInviteListItem[];
   } {
     return { invites: [] };
