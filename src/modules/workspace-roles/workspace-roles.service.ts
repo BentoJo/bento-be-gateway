@@ -56,9 +56,7 @@ interface WorkspaceRolesServiceGrpc {
 }
 
 interface AuthzServiceGrpc {
-  CreateRole(
-    data: AuthzCreateRoleRequest,
-  ): Observable<AuthzCreateRoleResponse>;
+  CreateRole(data: AuthzCreateRoleRequest): Observable<AuthzCreateRoleResponse>;
   AssignPermissionsToRole(
     data: AuthzAssignPermissionsRequest,
   ): Observable<AuthzAssignPermissionsResponse>;
@@ -77,8 +75,9 @@ export class WorkspaceRolesService implements OnModuleInit {
   onModuleInit() {
     this.workspaceRolesServiceGrpc =
       this.client.getService<WorkspaceRolesServiceGrpc>('WorkspaceRoleService');
-    this.authzServiceGrpc =
-      this.authzClient.getService<AuthzServiceGrpc>('AuthorizationService');
+    this.authzServiceGrpc = this.authzClient.getService<AuthzServiceGrpc>(
+      'AuthorizationService',
+    );
   }
 
   /**
@@ -114,9 +113,7 @@ export class WorkspaceRolesService implements OnModuleInit {
     }
 
     if (!authzRoleId) {
-      throw new ForbiddenException(
-        'You do not have a role in this workspace',
-      );
+      throw new ForbiddenException('You do not have a role in this workspace');
     }
 
     return authzRoleId;
@@ -126,10 +123,10 @@ export class WorkspaceRolesService implements OnModuleInit {
     data: GetWorkspaceRoleFromAuthZRequest,
     user: AuthenticatedUser,
   ) {
-    const roleId = await this.resolveMemberRoleId(data.workspaceId, user.id);
+    // const roleId = await this.resolveMemberRoleId(data.workspaceId, user.id);
     return firstValueFrom(
       this.workspaceRolesServiceGrpc.GetWorkspaceRoleFromAuthZ(
-        { ...data, roleId },
+        data,
         buildRequiredUserMetadata(user),
       ),
     );
@@ -137,14 +134,12 @@ export class WorkspaceRolesService implements OnModuleInit {
 
   async getWorkspaceRolesPermissionsFromAuthZ(
     data: GetWorkspaceRolesPermissionsFromAuthZRequest,
-    user: AuthenticatedUser,
   ) {
-    const roleId = await this.resolveMemberRoleId(data.workspaceId, user.id);
+    // const roleId = await this.resolveMemberRoleId(data.workspaceId, user.id);
     return firstValueFrom(
-      this.workspaceRolesServiceGrpc.GetWorkspaceRolesPermissionsFromAuthZ({
-        ...data,
-        roleId,
-      }),
+      this.workspaceRolesServiceGrpc.GetWorkspaceRolesPermissionsFromAuthZ(
+        data,
+      ),
     );
   }
 
@@ -152,10 +147,10 @@ export class WorkspaceRolesService implements OnModuleInit {
     data: DeleteWorkspaceRoleReferenceRequest,
     user: AuthenticatedUser,
   ) {
-    const roleId = await this.resolveMemberRoleId(data.workspaceId, user.id);
+    // const roleId = await this.resolveMemberRoleId(data.workspaceId, user.id);
     return firstValueFrom(
       this.workspaceRolesServiceGrpc.DeleteWorkspaceRole(
-        { ...data, roleId },
+        data,
         buildRequiredUserMetadata(user),
       ),
     );
@@ -175,10 +170,10 @@ export class WorkspaceRolesService implements OnModuleInit {
     data: GetWorkspaceRolesRequest,
     user: AuthenticatedUser,
   ) {
-    const roleId = await this.resolveMemberRoleId(data.workspaceId, user.id);
+    // const roleId = await this.resolveMemberRoleId(data.workspaceId, user.id);
     return firstValueFrom(
       this.workspaceRolesServiceGrpc.GetWorkspaceRoles(
-        { ...data, roleId },
+        data,
         buildRequiredUserMetadata(user),
       ),
     );

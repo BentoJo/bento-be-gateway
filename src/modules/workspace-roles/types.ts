@@ -46,7 +46,7 @@ export interface GetWorkspaceRoleFromAuthZRequest {
   authzRoleId: string;
 
   // Caller's resolved authz role id (read by ws PermissionsGuard).
-  roleId?: string;
+  // roleId?: string;
 }
 
 export interface GetWorkspaceRolesPermissionsFromAuthZRequest {
@@ -55,7 +55,7 @@ export interface GetWorkspaceRolesPermissionsFromAuthZRequest {
   authzRoleId: string;
 
   // Caller's resolved authz role id (read by ws PermissionsGuard).
-  roleId?: string;
+  // roleId?: string;
 }
 
 export interface WorkspaceRolePermissionsResponse {

@@ -67,11 +67,9 @@ export class WorkspaceRolesController {
   @UseGuards(AuthGuard)
   getWorkspaceRolesPermissionsFromAuthZ(
     @Param() params: GetWorkspaceRolesPermissionsFromAuthZRequest,
-    @Req() req: AuthenticatedRequest,
   ) {
     return this.workspaceRolesService.getWorkspaceRolesPermissionsFromAuthZ(
       params,
-      req.user,
     );
   }
 

@@ -88,7 +88,7 @@ message GetWorkspaceRolesPermissionsFromAuthZRequest {
   string authzRoleId = 2;
 
   // Caller's resolved authz role id (read by ws PermissionsGuard).
-  string roleId = 3;
+  // string roleId = 3;
 }
 
 message WorkspaceRolePermissionsResponse {
