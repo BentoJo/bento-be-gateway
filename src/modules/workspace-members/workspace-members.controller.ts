@@ -60,8 +60,8 @@ export class WorkspaceMembersController {
 
   @Get('/invitations/me')
   @UseGuards(AuthGuard)
-  listMyInvitations(@Req() req: AuthenticatedRequest) {
-    return this.workspaceMembersService.listMyInvitations(req.user);
+  listMyInvitations() {
+    return this.workspaceMembersService.listMyInvitations();
   }
 
   @Get('/:workspaceId/members/:memberId/role')
