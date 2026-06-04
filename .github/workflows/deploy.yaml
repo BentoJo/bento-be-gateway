@@ -14,60 +14,28 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: write
-
     steps:
-      - uses: actions/checkout@v4
-
-      # Buildx enables GitHub Actions layer caching for fast rebuilds.
-      - name: Set up Buildx
-        uses: docker/setup-buildx-action@v3
-
-      # LOGIN TO GHCR (machine user) — for pushing the image.
-      - name: Login to GHCR
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ secrets.CI_BOT_USERNAME }}
-          password: ${{ secrets.CI_BOT_TOKEN }}
-
-      # BUILD & PUSH GATEWAY IMAGE.
-      # No build-args: the gateway has no NEXT_PUBLIC_* (all config is runtime env).
-      - name: Build & Push Gateway
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: |
-            ghcr.io/bentojo/bento-be-gateway:latest
-            ghcr.io/bentojo/bento-be-gateway:${{ github.sha }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-      # DEPLOY TO VPS — log in to GHCR there too (needed for a private package),
-      # then pull + recreate. Fails the job if the gateway isn't healthy.
-      - name: Deploy to VPS
+      # The VPS builds the image from source (podman, local build) and runs it
+      # from compose.yaml. So the deploy just syncs the repo and rebuilds. All
+      # config is supplied at RUNTIME via the compose env_file on the server —
+      # nothing secret is baked into the image. --force-recreate guarantees the
+      # container is replaced (and env_file re-read) even if the image is cached.
+      - name: Deploy to VPS (build on server)
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          envs: GHCR_USER,GHCR_TOKEN
+          command_timeout: 20m
           script: |
             set -e
-            echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
             cd /apps/bento-be-gateway
-            docker compose pull
-            docker compose up -d
+            git fetch origin
+            git reset --hard origin/main
+            docker compose -f compose.yaml up -d --build --force-recreate gateway-service
             docker image prune -f
-            # quick sanity check: container is running + health route answers
             sleep 5
-            docker compose ps
+            docker compose -f compose.yaml ps
             test "$(docker inspect -f '{{.State.Running}}' gateway-service)" = "true"
             curl -fsS http://127.0.0.1:5000/api/v1/auth/health
-        env:
-          GHCR_USER: ${{ secrets.CI_BOT_USERNAME }}
-          GHCR_TOKEN: ${{ secrets.CI_BOT_TOKEN }}
+            echo "gateway-service is running"
