@@ -28,14 +28,6 @@ export interface ListBoardMembersRequest {
   search?: string;
 }
 
-export interface BoardMemberListItem {
-  userId: string;
-
-  overrideRoleId?: string | null;
-
-  joinedAt: string;
-}
-
 export interface PaginationMeta {
   page: number;
 
@@ -44,6 +36,20 @@ export interface PaginationMeta {
   total: number;
 
   totalPages: number;
+}
+
+export interface BoardMemberListItem {
+  user: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    avatarUrl?: string | null;
+  };
+
+  overrideRoleId?: string | null;
+
+  joinedAt: string;
 }
 
 export interface ListBoardMembersResponse {

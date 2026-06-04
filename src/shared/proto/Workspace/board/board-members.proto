@@ -6,18 +6,17 @@ import "../common.proto";
 
 service BoardMembersService {
   rpc ListWorkspaceBoards(ListWorkspaceBoardsRequest)
-      returns (ListWorkspaceBoardsResponse);
+  returns (ListWorkspaceBoardsResponse);
 
   rpc AddBoardMember(AddBoardMemberRequest)
-      returns (workspace.common.ActionResponse);
+  returns (workspace.common.ActionResponse);
 
   rpc RemoveBoardMember(RemoveBoardMemberRequest)
-      returns (workspace.common.ActionResponse);
+  returns (workspace.common.ActionResponse);
 
   rpc ListBoardMembers(ListBoardMembersRequest)
-      returns (ListBoardMembersResponse);
+  returns (ListBoardMembersResponse);
 }
-
 
 message ListWorkspaceBoardsRequest {
   string workspaceId = 1;
@@ -51,7 +50,6 @@ message ListWorkspaceBoardsResponse {
   workspace.common.PaginationMeta pagination = 2;
 }
 
-
 message AddBoardMemberRequest {
   string workspaceId = 1;
 
@@ -70,7 +68,6 @@ message RemoveBoardMemberRequest {
   string userId = 3;
 }
 
-
 message ListBoardMembersRequest {
   string workspaceId = 1;
 
@@ -83,12 +80,26 @@ message ListBoardMembersRequest {
   optional string search = 5;
 }
 
+message UserSummary {
+  string id = 1;
+
+  string email = 2;
+
+  string firstName = 3;
+
+  string lastName = 4;
+
+  optional string avatarUrl = 5;
+}
+
 message BoardMemberListItem {
   string userId = 1;
 
   optional string overrideRoleId = 2;
 
   string joinedAt = 3;
+
+  optional UserSummary user = 4;
 }
 
 message ListBoardMembersResponse {

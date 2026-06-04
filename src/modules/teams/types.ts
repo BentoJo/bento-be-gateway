@@ -121,7 +121,13 @@ export interface AddTeamMemberRequest {
 export interface AddTeamMemberResponse {
   id: string;
   teamId: string;
-  workspaceMemberId: string;
+  user: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    avatarUrl?: string | null;
+  };
   joinedAt: string;
 }
 
@@ -148,7 +154,13 @@ export interface BulkRemoveTeamMembersRequest {
 export type BulkTeamMembersResponse = ActionResponse;
 
 export interface TeamMemberListItem {
-  userId: string;
+  user: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    avatarUrl?: string | null;
+  };
   joinedAt: string;
 }
 
