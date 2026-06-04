@@ -22,6 +22,7 @@ import { AuthGuard } from '../../../shared/Guards/auth.guard';
 import {
   COOKIE_OPTIONS,
   DEVICE_COOKIE_OPTIONS,
+  CLEAR_COOKIE_OPTIONS,
 } from '../../../shared/configs/cookies.config';
 import type { LogoutAllRequest } from '../../../shared/types/auth/logout';
 
@@ -96,14 +97,25 @@ export class AuthController {
 
   @Post('/logout')
   @UseGuards(AuthGuard)
-  logout(@Req() req: Request) {
+  async logout(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ) {
     const refreshToken = req.cookies?.refreshToken;
 
     if (!refreshToken) {
       throw new UnauthorizedException('No refresh token provided');
     }
 
-    return this.authService.logout({ refreshToken });
+    const result = await this.authService.logout({ refreshToken });
+
+    // Revoke the session server-side AND clear the auth cookies in the browser
+    // so a stale refreshToken/sessionId can't linger. deviceToken is kept so the
+    // same physical device is still recognised on the next login.
+    res.clearCookie('refreshToken', CLEAR_COOKIE_OPTIONS);
+    res.clearCookie('sessionId', CLEAR_COOKIE_OPTIONS);
+
+    return result;
   }
 
   @Post('/logout-all')
