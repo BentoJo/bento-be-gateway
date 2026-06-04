@@ -11,7 +11,7 @@ async function bootstrap() {
   // Set global API prefix to /api/v1
   app.setGlobalPrefix('api/v1');
 
-  // Enable cookie parsing for incoming requests
+  // Enable cookie parsing for incoming  requests
   app.use(cookieParser());
 
   // Global gRPC → HTTP error translation
