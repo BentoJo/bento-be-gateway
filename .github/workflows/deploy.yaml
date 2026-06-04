@@ -4,6 +4,12 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch: {}
+
+# Don't let two deploys race; cancel an in-progress one when a newer push lands.
+concurrency:
+  group: deploy-gateway
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -16,7 +22,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # LOGIN TO GHCR (machine user)
+      # Buildx enables GitHub Actions layer caching for fast rebuilds.
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # LOGIN TO GHCR (machine user) — for pushing the image.
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
@@ -24,25 +34,40 @@ jobs:
           username: ${{ secrets.CI_BOT_USERNAME }}
           password: ${{ secrets.CI_BOT_TOKEN }}
 
-      # BUILD & PUSH
-      - name: Build & Push
+      # BUILD & PUSH GATEWAY IMAGE.
+      # No build-args: the gateway has no NEXT_PUBLIC_* (all config is runtime env).
+      - name: Build & Push Gateway
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: |
-            ghcr.io/bentojo/bento-be-gateway-gateway-service:latest
-            ghcr.io/bentojo/bento-be-gateway-gateway-service:${{ github.sha }}
+            ghcr.io/bentojo/bento-be-gateway:latest
+            ghcr.io/bentojo/bento-be-gateway:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-      # DEPLOY
-      - name: Deploy
+      # DEPLOY TO VPS — log in to GHCR there too (needed for a private package),
+      # then pull + recreate. Fails the job if the gateway isn't healthy.
+      - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.2.0
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
+          envs: GHCR_USER,GHCR_TOKEN
           script: |
+            set -e
+            echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
             cd /apps/bento-be-gateway
-
             docker compose pull
             docker compose up -d
+            docker image prune -f
+            # quick sanity check: container is running + health route answers
+            sleep 5
+            docker compose ps
+            test "$(docker inspect -f '{{.State.Running}}' gateway-service)" = "true"
+            curl -fsS http://127.0.0.1:5000/api/v1/auth/health
+        env:
+          GHCR_USER: ${{ secrets.CI_BOT_USERNAME }}
+          GHCR_TOKEN: ${{ secrets.CI_BOT_TOKEN }}
