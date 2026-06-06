@@ -39,12 +39,6 @@ export class BoardsController {
     @Body() body: Omit<CreateBoardRequest, 'workspaceId'>,
     @Req() req: AuthenticatedRequest,
   ) {
-    console.log(
-      'Received CreateBoard request with body: from api endpoint:',
-      body,
-      'and user:',
-      req.user,
-    );
     return this.boardsService.createBoard({ workspaceId, ...body }, req.user);
   }
 
