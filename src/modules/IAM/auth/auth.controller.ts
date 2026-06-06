@@ -97,10 +97,7 @@ export class AuthController {
 
   @Post('/logout')
   @UseGuards(AuthGuard)
-  async logout(
-    @Req() req: Request,
-    @Res({ passthrough: true }) res: Response,
-  ) {
+  async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const refreshToken = req.cookies?.refreshToken;
 
     if (!refreshToken) {
