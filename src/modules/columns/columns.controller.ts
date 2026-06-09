@@ -69,7 +69,8 @@ export class ColumnsController {
   @Put('/:workspaceId/boards/:boardId/columns/:columnId')
   updateColumn(
     @Param() params: GetColumnRequest,
-    @Body() body: Omit<UpdateColumnRequest, 'workspaceId' | 'boardId' | 'columnId'>,
+    @Body()
+    body: Omit<UpdateColumnRequest, 'workspaceId' | 'boardId' | 'columnId'>,
     @Req() req: AuthenticatedRequest,
   ) {
     return this.columnsService.updateColumn({ ...params, ...body }, req.user);
@@ -85,8 +86,10 @@ export class ColumnsController {
 
   @Post('/:workspaceId/boards/:boardId/columns/:columnId/reorder')
   reorderColumn(
-    @Param() params: Pick<ReorderColumnRequest, 'workspaceId' | 'boardId' | 'columnId'>,
-    @Body() body: Omit<ReorderColumnRequest, 'workspaceId' | 'boardId' | 'columnId'>,
+    @Param()
+    params: Pick<ReorderColumnRequest, 'workspaceId' | 'boardId' | 'columnId'>,
+    @Body()
+    body: Omit<ReorderColumnRequest, 'workspaceId' | 'boardId' | 'columnId'>,
     @Req() req: AuthenticatedRequest,
   ) {
     return this.columnsService.reorderColumn({ ...params, ...body }, req.user);
@@ -118,7 +121,11 @@ export class ColumnsController {
 
   @Get('/:workspaceId/boards/:boardId/columns/:columnId/cards')
   listColumnCards(
-    @Param() params: Pick<ListColumnCardsRequest, 'workspaceId' | 'boardId' | 'columnId'>,
+    @Param()
+    params: Pick<
+      ListColumnCardsRequest,
+      'workspaceId' | 'boardId' | 'columnId'
+    >,
     @Query() query: Pick<ListColumnCardsRequest, 'page' | 'limit'>,
     @Req() req: AuthenticatedRequest,
   ) {
