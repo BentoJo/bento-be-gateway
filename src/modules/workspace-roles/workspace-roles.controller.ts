@@ -84,8 +84,11 @@ export class WorkspaceRolesController {
 
   @Post('/:workspaceId/members/:userId/role')
   @UseGuards(AuthGuard)
-  getWorkspaceMemberRole(@Param() params: GetWorkspaceMemberRoleRequest) {
-    return this.workspaceRolesService.getWorkspaceMemberRole(params);
+  getWorkspaceMemberRole(
+    @Param() params: GetWorkspaceMemberRoleRequest,
+    @Req() req: AuthenticatedRequest,
+  ) {
+    return this.workspaceRolesService.getWorkspaceMemberRole(params, req.user);
   }
 
   @Post('/:workspaceId/check-permission')

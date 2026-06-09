@@ -13,6 +13,18 @@ import {
   ListUserWorkspacesRequest,
   ListUserWorkspacesResponse,
 } from '../../shared/types/workspace/workspace';
+import {
+  AssignPermissionsRequest,
+  AssignPermissionsResponse,
+  CreateRoleRequest,
+  CreateRoleResponse,
+  DeleteRoleRequest,
+  DeleteRoleResponse,
+  RemovePermissionsRequest,
+  RemovePermissionsResponse,
+  UpdateRoleRequest,
+  UpdateRoleResponse,
+} from '../../shared/types/workspace/roles';
 import { Observable } from 'rxjs';
 import { ActionResponse } from '../../shared/types/workspace/common';
 import type { ClientGrpc } from '@nestjs/microservices';
@@ -20,6 +32,7 @@ import type { AuthenticatedUser } from '../../shared/types/auth';
 import { buildRequiredUserMetadata } from '../../shared/utils/grpc-user-metadata';
 
 interface WorkspaceServiceGrpc {
+  // Workspace methods
   CreateWorkspace(
     data: CreateWorkspaceRequest,
     metadata: Metadata,
@@ -54,15 +67,43 @@ interface WorkspaceServiceGrpc {
   ): Observable<ListUserWorkspacesResponse>;
 }
 
+interface AuthorizationServiceGrpc {
+  // Roles methods
+  CreateRole(
+    data: CreateRoleRequest,
+    metadata: Metadata,
+  ): Observable<CreateRoleResponse>;
+  UpdateRole(
+    data: UpdateRoleRequest,
+    metadata: Metadata,
+  ): Observable<UpdateRoleResponse>;
+  DeleteRole(
+    data: DeleteRoleRequest,
+    metadata: Metadata,
+  ): Observable<DeleteRoleResponse>;
+  AssignPermissionsToRole(
+    data: AssignPermissionsRequest,
+    metadata: Metadata,
+  ): Observable<AssignPermissionsResponse>;
+  RemovePermissionsFromRole(
+    data: RemovePermissionsRequest,
+    metadata: Metadata,
+  ): Observable<RemovePermissionsResponse>;
+}
+
 @Injectable()
 export class WorkspaceService implements OnModuleInit {
   private workspaceServiceGrpc!: WorkspaceServiceGrpc;
+  private authzServiceGrpc!: AuthorizationServiceGrpc;
 
   constructor(@Inject('WORKSPACE_SERVICE') private client: ClientGrpc) {}
 
   onModuleInit() {
     this.workspaceServiceGrpc =
       this.client.getService<WorkspaceServiceGrpc>('WorkspaceService');
+    this.authzServiceGrpc = this.client.getService<AuthorizationServiceGrpc>(
+      'AuthorizationService',
+    );
   }
 
   createWorkspace(data: CreateWorkspaceRequest, user: AuthenticatedUser) {
@@ -129,6 +170,47 @@ export class WorkspaceService implements OnModuleInit {
     // rather than fabricating until WS exposes them on this response.
     return this.workspaceServiceGrpc.ListUserWorkspaces(
       { data },
+      buildRequiredUserMetadata(user),
+    );
+  }
+
+  createRole(data: CreateRoleRequest, user: AuthenticatedUser) {
+    return this.authzServiceGrpc.CreateRole(
+      data,
+      buildRequiredUserMetadata(user),
+    );
+  }
+
+  updateRole(data: UpdateRoleRequest, user: AuthenticatedUser) {
+    return this.authzServiceGrpc.UpdateRole(
+      data,
+      buildRequiredUserMetadata(user),
+    );
+  }
+
+  deleteRole(data: DeleteRoleRequest, user: AuthenticatedUser) {
+    return this.authzServiceGrpc.DeleteRole(
+      data,
+      buildRequiredUserMetadata(user),
+    );
+  }
+
+  assignPermissionsToRole(
+    data: AssignPermissionsRequest,
+    user: AuthenticatedUser,
+  ) {
+    return this.authzServiceGrpc.AssignPermissionsToRole(
+      data,
+      buildRequiredUserMetadata(user),
+    );
+  }
+
+  removePermissionsFromRole(
+    data: RemovePermissionsRequest,
+    user: AuthenticatedUser,
+  ) {
+    return this.authzServiceGrpc.RemovePermissionsFromRole(
+      data,
       buildRequiredUserMetadata(user),
     );
   }

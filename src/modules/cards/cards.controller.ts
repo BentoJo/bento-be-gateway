@@ -135,7 +135,8 @@ export class CardsController {
 
   @Post('/:workspaceId/boards/:boardId/cards/:cardId/move')
   moveCard(
-    @Param() params: Pick<MoveCardRequest, 'workspaceId' | 'boardId' | 'cardId'>,
+    @Param()
+    params: Pick<MoveCardRequest, 'workspaceId' | 'boardId' | 'cardId'>,
     @Body() body: Omit<MoveCardRequest, 'workspaceId' | 'boardId' | 'cardId'>,
     @Req() req: AuthenticatedRequest,
   ) {
@@ -171,8 +172,10 @@ export class CardsController {
 
   @Post('/:workspaceId/boards/:boardId/cards/:cardId/assignees')
   addCardAssignee(
-    @Param() params: Pick<AddCardAssigneeRequest, 'workspaceId' | 'boardId' | 'cardId'>,
-    @Body() body: Omit<AddCardAssigneeRequest, 'workspaceId' | 'boardId' | 'cardId'>,
+    @Param()
+    params: Pick<AddCardAssigneeRequest, 'workspaceId' | 'boardId' | 'cardId'>,
+    @Body()
+    body: Omit<AddCardAssigneeRequest, 'workspaceId' | 'boardId' | 'cardId'>,
     @Req() req: AuthenticatedRequest,
   ) {
     return this.cardsService.addCardAssignee({ ...params, ...body }, req.user);
@@ -191,8 +194,10 @@ export class CardsController {
   // ---------------------------
   @Post('/:workspaceId/boards/:boardId/cards/:cardId/labels')
   addCardLabel(
-    @Param() params: Pick<AddCardLabelRequest, 'workspaceId' | 'boardId' | 'cardId'>,
-    @Body() body: Omit<AddCardLabelRequest, 'workspaceId' | 'boardId' | 'cardId'>,
+    @Param()
+    params: Pick<AddCardLabelRequest, 'workspaceId' | 'boardId' | 'cardId'>,
+    @Body()
+    body: Omit<AddCardLabelRequest, 'workspaceId' | 'boardId' | 'cardId'>,
     @Req() req: AuthenticatedRequest,
   ) {
     return this.cardsService.addCardLabel({ ...params, ...body }, req.user);
@@ -211,7 +216,8 @@ export class CardsController {
   // ---------------------------
   @Get('/:workspaceId/boards/:boardId/cards/:cardId/comments')
   listCardComments(
-    @Param() params: Pick<ListCardCommentsRequest, 'workspaceId' | 'boardId' | 'cardId'>,
+    @Param()
+    params: Pick<ListCardCommentsRequest, 'workspaceId' | 'boardId' | 'cardId'>,
     @Query() query: Pick<ListCardCommentsRequest, 'page' | 'limit'>,
     @Req() req: AuthenticatedRequest,
   ) {
@@ -223,7 +229,8 @@ export class CardsController {
 
   @Post('/:workspaceId/boards/:boardId/cards/:cardId/comments')
   addComment(
-    @Param() params: Pick<AddCommentRequest, 'workspaceId' | 'boardId' | 'cardId'>,
+    @Param()
+    params: Pick<AddCommentRequest, 'workspaceId' | 'boardId' | 'cardId'>,
     @Body() body: Omit<AddCommentRequest, 'workspaceId' | 'boardId' | 'cardId'>,
     @Req() req: AuthenticatedRequest,
   ) {
@@ -251,14 +258,18 @@ export class CardsController {
 
   @Post('/:workspaceId/boards/:boardId/cards/:cardId/checklists')
   createChecklist(
-    @Param() params: Pick<CreateChecklistRequest, 'workspaceId' | 'boardId' | 'cardId'>,
-    @Body() body: Omit<CreateChecklistRequest, 'workspaceId' | 'boardId' | 'cardId'>,
+    @Param()
+    params: Pick<CreateChecklistRequest, 'workspaceId' | 'boardId' | 'cardId'>,
+    @Body()
+    body: Omit<CreateChecklistRequest, 'workspaceId' | 'boardId' | 'cardId'>,
     @Req() req: AuthenticatedRequest,
   ) {
     return this.cardsService.createChecklist({ ...params, ...body }, req.user);
   }
 
-  @Post('/:workspaceId/boards/:boardId/cards/:cardId/checklists/:checklistId/items')
+  @Post(
+    '/:workspaceId/boards/:boardId/cards/:cardId/checklists/:checklistId/items',
+  )
   addChecklistItem(
     @Param()
     params: Pick<

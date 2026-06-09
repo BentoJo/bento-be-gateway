@@ -45,6 +45,7 @@ interface WorkspaceRolesServiceGrpc {
   ): Observable<ActionResponse>;
   GetWorkspaceMemberRole(
     data: GetWorkspaceMemberRoleRequest,
+    metadata?: Metadata,
   ): Observable<GetWorkspaceMemberRoleResponse>;
   CheckPermission(
     data: CheckPermissionRequest,
@@ -156,9 +157,15 @@ export class WorkspaceRolesService implements OnModuleInit {
     );
   }
 
-  getWorkspaceMemberRole(data: GetWorkspaceMemberRoleRequest) {
+  getWorkspaceMemberRole(
+    data: GetWorkspaceMemberRoleRequest,
+    user: AuthenticatedUser,
+  ) {
     return firstValueFrom(
-      this.workspaceRolesServiceGrpc.GetWorkspaceMemberRole(data),
+      this.workspaceRolesServiceGrpc.GetWorkspaceMemberRole(
+        data,
+        buildRequiredUserMetadata(user),
+      ),
     );
   }
 
