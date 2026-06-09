@@ -16,7 +16,6 @@ import type {
   AssignPermissionsResponse,
   CreateRoleRequest,
   CreateRoleResponse,
-  DeleteRoleRequest,
   DeleteRoleResponse,
   RemovePermissionsRequest,
   RemovePermissionsResponse,
@@ -25,50 +24,64 @@ import type {
 } from '../../shared/types/workspace/roles';
 import { firstValueFrom } from 'rxjs';
 
-@Controller('workspace/roles')
+@Controller('workspace/:workspaceId/roles')
 @UseGuards(AuthGuard)
 export class RolesController {
   constructor(private readonly workspaceService: WorkspaceService) {}
 
   @Post('/')
   createRole(
-    @Body() body: CreateRoleRequest,
+    @Param('workspaceId') workspaceId: string,
+    @Body() body: Omit<CreateRoleRequest, 'scopeId'>,
     @Req() req: AuthenticatedRequest,
   ): Promise<CreateRoleResponse> {
-    return firstValueFrom(this.workspaceService.createRole(body, req.user));
+    return firstValueFrom(
+      this.workspaceService.createRole(
+        { ...body, scopeId: workspaceId },
+        req.user,
+      ),
+    );
   }
 
   @Put('/:roleId')
   updateRole(
+    @Param('workspaceId') workspaceId: string,
     @Param('roleId') roleId: string,
-    @Body() body: Omit<UpdateRoleRequest, 'roleId'>,
+    @Body() body: Omit<UpdateRoleRequest, 'roleId' | 'scopeId'>,
     @Req() req: AuthenticatedRequest,
   ): Promise<UpdateRoleResponse> {
     return firstValueFrom(
-      this.workspaceService.updateRole({ ...body, roleId }, req.user),
+      this.workspaceService.updateRole(
+        { ...body, roleId, scopeId: workspaceId },
+        req.user,
+      ),
     );
   }
 
   @Delete('/:roleId')
   deleteRole(
+    @Param('workspaceId') workspaceId: string,
     @Param('roleId') roleId: string,
-    @Body() body: Omit<DeleteRoleRequest, 'roleId'>,
     @Req() req: AuthenticatedRequest,
   ): Promise<DeleteRoleResponse> {
     return firstValueFrom(
-      this.workspaceService.deleteRole({ ...body, roleId }, req.user),
+      this.workspaceService.deleteRole(
+        { roleId, scopeId: workspaceId },
+        req.user,
+      ),
     );
   }
 
   @Post('/:roleId/permissions')
   assignPermissionsToRole(
+    @Param('workspaceId') workspaceId: string,
     @Param('roleId') roleId: string,
-    @Body() body: Omit<AssignPermissionsRequest, 'roleId'>,
+    @Body() body: Omit<AssignPermissionsRequest, 'roleId' | 'scopeId'>,
     @Req() req: AuthenticatedRequest,
   ): Promise<AssignPermissionsResponse> {
     return firstValueFrom(
       this.workspaceService.assignPermissionsToRole(
-        { ...body, roleId },
+        { ...body, roleId, scopeId: workspaceId },
         req.user,
       ),
     );
@@ -76,13 +89,14 @@ export class RolesController {
 
   @Delete('/:roleId/permissions')
   removePermissionsFromRole(
+    @Param('workspaceId') workspaceId: string,
     @Param('roleId') roleId: string,
-    @Body() body: Omit<RemovePermissionsRequest, 'roleId'>,
+    @Body() body: Omit<RemovePermissionsRequest, 'roleId' | 'scopeId'>,
     @Req() req: AuthenticatedRequest,
   ): Promise<RemovePermissionsResponse> {
     return firstValueFrom(
       this.workspaceService.removePermissionsFromRole(
-        { ...body, roleId },
+        { ...body, roleId, scopeId: workspaceId },
         req.user,
       ),
     );
