@@ -32,6 +32,14 @@ export class WorkspaceController {
     return this.workspaceService.createWorkspace(body, req.user);
   }
 
+  @Post('/me/workspaces')
+  listUserWorkspaces(
+    @Body() data: ListUserWorkspacesRequest,
+    @Req() req: AuthenticatedRequest,
+  ) {
+    return this.workspaceService.listUserWorkspaces(data, req.user);
+  }
+
   @Get('/:workspaceId/overview')
   getWorkspaceOverview(
     @Param() params: GetWorkspaceRequest,
@@ -92,13 +100,5 @@ export class WorkspaceController {
       },
       req.user,
     );
-  }
-
-  @Post('/me/workspaces')
-  listUserWorkspaces(
-    @Body() data: ListUserWorkspacesRequest,
-    @Req() req: AuthenticatedRequest,
-  ) {
-    return this.workspaceService.listUserWorkspaces(data, req.user);
   }
 }
