@@ -32,6 +32,7 @@ import type {
   ListCardAssigneesRequest,
   ListCardChecklistsRequest,
   ListCardCommentsRequest,
+  ListCardLabelsRequest,
   ListWorkspaceCardsByDateRequest,
   ListWorkspaceLabelsRequest,
   MoveCardRequest,
@@ -201,6 +202,14 @@ export class CardsController {
     @Req() req: AuthenticatedRequest,
   ) {
     return this.cardsService.addCardLabel({ ...params, ...body }, req.user);
+  }
+
+  @Get('/:workspaceId/boards/:boardId/cards/:cardId/labels')
+  listCardLabels(
+    @Param() params: ListCardLabelsRequest,
+    @Req() req: AuthenticatedRequest,
+  ) {
+    return this.cardsService.listCardLabels(params, req.user);
   }
 
   @Delete('/:workspaceId/boards/:boardId/cards/:cardId/labels/:labelId')

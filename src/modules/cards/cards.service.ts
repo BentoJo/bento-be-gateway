@@ -35,6 +35,7 @@ import type {
   ListChecklistsResponse,
   ListCommentsResponse,
   ListLabelsResponse,
+  ListCardLabelsRequest,
   ListWorkspaceCardsByDateRequest,
   ListWorkspaceLabelsRequest,
   MoveCardRequest,
@@ -99,6 +100,10 @@ interface CardsServiceGrpc {
     data: RemoveCardLabelRequest,
     metadata: Metadata,
   ): Observable<ActionResponse>;
+  ListCardLabels(
+    data: ListCardLabelsRequest,
+    metadata: Metadata,
+  ): Observable<ListLabelsResponse>;
   CreateLabel(
     data: CreateLabelRequest,
     metadata: Metadata,
@@ -271,6 +276,15 @@ export class CardsService implements OnModuleInit {
   removeCardLabel(data: RemoveCardLabelRequest, user: AuthenticatedUser) {
     return firstValueFrom(
       this.cardsServiceGrpc.RemoveCardLabel(
+        data,
+        buildRequiredUserMetadata(user),
+      ),
+    );
+  }
+
+  listCardLabels(data: ListCardLabelsRequest, user: AuthenticatedUser) {
+    return firstValueFrom(
+      this.cardsServiceGrpc.ListCardLabels(
         data,
         buildRequiredUserMetadata(user),
       ),
