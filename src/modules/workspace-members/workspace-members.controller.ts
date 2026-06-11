@@ -120,6 +120,21 @@ export class WorkspaceMembersController {
     return this.workspaceMembersService.removeWorkspaceMember(params, req.user);
   }
 
+  // Leave the workspace = remove the current user from it. Reuses
+  // RemoveWorkspaceMember with the authenticated user as the target; the WS
+  // service allows self-removal without members:manage and blocks the owner.
+  @Post('/:workspaceId/leave')
+  @UseGuards(AuthGuard)
+  leaveWorkspace(
+    @Param('workspaceId') workspaceId: string,
+    @Req() req: AuthenticatedRequest,
+  ) {
+    return this.workspaceMembersService.removeWorkspaceMember(
+      { workspaceId, memberId: req.user.id },
+      req.user,
+    );
+  }
+
   @Put('/:workspaceId/members/:memberId/role')
   @UseGuards(AuthGuard)
   updateWorkspaceMemberRole(

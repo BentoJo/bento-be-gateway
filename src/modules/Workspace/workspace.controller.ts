@@ -48,6 +48,11 @@ export class WorkspaceController {
     return this.workspaceService.getWorkspaceOverview(params, req.user);
   }
 
+  @Get('/:workspaceId/permissions')
+  listPermissions(@Req() req: AuthenticatedRequest) {
+    return this.workspaceService.listPermissions(req.user);
+  }
+
   @Get('/:workspaceId')
   getWorkspaceById(
     @Param() params: GetWorkspaceRequest,

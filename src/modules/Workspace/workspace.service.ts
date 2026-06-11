@@ -89,6 +89,20 @@ interface AuthorizationServiceGrpc {
     data: RemovePermissionsRequest,
     metadata: Metadata,
   ): Observable<RemovePermissionsResponse>;
+  ListPermissions(
+    data: Record<string, never>,
+    metadata: Metadata,
+  ): Observable<ListPermissionsResponse>;
+}
+
+export interface PermissionItem {
+  id: string;
+  name: string;
+}
+
+export interface ListPermissionsResponse {
+  permissions: PermissionItem[];
+  totalCount?: number;
 }
 
 @Injectable()
@@ -211,6 +225,16 @@ export class WorkspaceService implements OnModuleInit {
   ) {
     return this.authzServiceGrpc.RemovePermissionsFromRole(
       data,
+      buildRequiredUserMetadata(user),
+    );
+  }
+
+  // Lists every permission descriptor available in the system so the
+  // permissions-management UI can render a full checkbox list per role.
+  // Backed by the authz service's ListPermissions RPC.
+  listPermissions(user: AuthenticatedUser) {
+    return this.authzServiceGrpc.ListPermissions(
+      {},
       buildRequiredUserMetadata(user),
     );
   }
