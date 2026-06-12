@@ -208,6 +208,8 @@ export interface CardAssignee {
   assignedBy: string;
 
   createdAt: string;
+
+  workspaceMemberId?: string | null;
 }
 
 export interface ListCardAssigneesResponse {
