@@ -13,6 +13,7 @@ import { CardsModule } from './cards/cards.module';
 import { UserModule } from './IAM/user/user.module';
 import { SessionsModule } from './IAM/sessions/sessions.module';
 import { DevicesModule } from './IAM/devices/devices.module';
+import { HoneypotModule } from './honeypot/honeypot.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { DevicesModule } from './IAM/devices/devices.module';
     UserModule,
     SessionsModule,
     DevicesModule,
+    HoneypotModule,
   ],
 })
 export class AppModule implements NestModule {
